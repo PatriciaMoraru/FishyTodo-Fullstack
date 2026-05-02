@@ -1,0 +1,68 @@
+.fish-roam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12rem;
+  cursor: pointer;
+  user-select: none;
+  filter: drop-shadow(0 4px 8px rgba(110, 78, 58, 0.18));
+  opacity: 1;
+  transition: filter 0.3s, opacity 0.3s;
+  will-change: transform;
+  z-index: 4;
+}
+
+.fish-roam:hover {
+  filter: drop-shadow(0 4px 8px rgba(110, 78, 58, 0.18)) brightness(1.08);
+}
+
+.fish-roam.selected {
+  filter: drop-shadow(0 0 1.8rem var(--accent)) brightness(1.05);
+  z-index: 30;
+}
+
+.fish-roam.completing {
+  pointer-events: none;
+}
+
+.fish-roam.dimmed {
+  opacity: 0.15;
+  filter: saturate(0) brightness(0.5) blur(1px);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.fish-inner {
+  position: relative;
+}
+
+.fish-inner.completing {
+  animation: float-up 1.6s ease-in forwards;
+}
+
+.fish-label {
+  position: absolute;
+  bottom: -2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--tert) 50%, var(--paper-card));
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.2rem 1.2rem;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  color: var(--ink);
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+  .fish-label {
+    font-size: 1.1rem;
+    padding: 0.2rem 0.8rem;
+    max-width: 12rem;
+  }
+}

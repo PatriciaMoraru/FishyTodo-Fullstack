@@ -1,0 +1,289 @@
+/* ── mood reef page ──────────────────────────────── */
+.mood-reef {
+  height: 100%;
+  overflow-y: auto;
+  background: var(--paper);
+  animation: fade-in 0.3s ease-out;
+}
+
+.mood-reef-inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 3.2rem 4rem;
+}
+
+/* ── header ──────────────────────────────────────── */
+.mood-reef-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2.8rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1.5px dashed var(--line);
+}
+
+.mood-reef-title {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(3.6rem, 6vw, 5.6rem);
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1;
+  transform: rotate(-1deg);
+  display: inline-block;
+}
+
+.mood-reef-back {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.mood-reef-back:hover {
+  color: var(--ink);
+}
+
+/* ── daily check-in card ─────────────────────────── */
+.checkin-card {
+  background: var(--paper-card);
+  border: 1.5px solid color-mix(in srgb, var(--sec) 35%, var(--line-strong));
+  border-radius: 1.8rem;
+  padding: 2.4rem 2.8rem;
+  box-shadow: var(--shadow-md);
+  transform: rotate(-0.3deg);
+  margin-bottom: 2.4rem;
+}
+
+.checkin-date {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+
+.checkin-prompt {
+  font-family: 'Caveat', cursive;
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.05;
+  margin-bottom: 2rem;
+}
+
+.checkin-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.mood-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.4rem 0.8rem 1rem;
+  background: var(--paper);
+  border: 2.5px solid var(--line-strong);
+  border-radius: 1.4rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.mood-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--mood-color);
+}
+
+.mood-btn--selected {
+  border-color: var(--mood-color);
+  background: color-mix(in srgb, var(--mood-color) 10%, var(--paper));
+}
+
+.mood-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.mood-btn-icon {
+  color: var(--mood-color);
+}
+
+.mood-btn-label {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+
+/* ── weekly reef strip ───────────────────────────── */
+.week-strip {
+  margin-bottom: 2.4rem;
+}
+
+.week-strip-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.week-strip-title {
+  font-family: 'Caveat', cursive;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.week-strip-hint {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+}
+
+.week-days {
+  display: flex;
+  gap: 0.8rem;
+  background: color-mix(in srgb, var(--tert) 22%, var(--paper-warm));
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 1.6rem;
+  padding: 1.6rem 1.2rem;
+}
+
+.day-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.6rem 0;
+  border-radius: 1rem;
+  position: relative;
+  transition: background 0.15s;
+}
+
+.day-btn:hover {
+  background: var(--paper-card);
+}
+
+.day-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1rem;
+}
+
+.day-btn--active .day-marker {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+
+.day-marker {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  background: var(--paper-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+  position: relative;
+}
+
+.day-btn--active .day-marker,
+.day-btn:hover:not(.day-btn--future) .day-marker {
+  border-color: var(--accent);
+}
+
+.day-marker-icon {
+  color: var(--mood-color);
+}
+
+.day-marker-empty {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.6rem;
+  color: var(--ink-soft);
+  opacity: 0.5;
+}
+
+.day-label {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+  text-transform: lowercase;
+}
+
+/* dot inside the circle, bottom-centre */
+.day-today-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  position: absolute;
+  bottom: 0.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* future days — greyed out, not clickable */
+.day-btn--future {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.day-btn--future:hover .day-marker {
+  border-color: var(--line);
+}
+
+/* ── dark mode tweaks ────────────────────────────── */
+[data-theme="dark"] .mood-btn--selected {
+  background: color-mix(in srgb, var(--mood-color) 15%, var(--paper-card));
+}
+
+[data-theme="dark"] .day-btn:hover {
+  background: var(--paper-warm);
+}
+
+/* ── responsive ──────────────────────────────────── */
+@media (max-width: 600px) {
+  .mood-reef-inner {
+    padding: 2rem 1.6rem;
+  }
+
+  .checkin-card {
+    padding: 1.8rem 1.6rem;
+    transform: none;
+  }
+
+  .checkin-options {
+    gap: 0.6rem;
+  }
+
+  .mood-btn {
+    padding: 1.2rem 0.4rem 0.8rem;
+  }
+
+  .mood-btn-label {
+    font-size: 1.2rem;
+  }
+
+  .week-days {
+    gap: 0.4rem;
+    padding: 1.2rem 0.8rem;
+  }
+
+  .day-marker {
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+
+  .week-strip-hint {
+    display: none;
+  }
+}

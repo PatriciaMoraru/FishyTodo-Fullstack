@@ -1,0 +1,82 @@
+import { useEffect, useRef } from 'react'
+import './Fish.css'
+import { getFishImage, getFishSpeed } from '../utils/fishImages'
+import { useSounds } from '../utils/useSounds'
+
+const FISH_WIDTH = 120
+const FISH_HEIGHT = 80
+
+export default function Fish({ task, paused, completing, dimmed, onClick }) {
+  const { playPop } = useSounds()
+  const fishRef = useRef(null)
+  const imgRef  = useRef(null)
+  const pos = useRef(null)
+  const vel = useRef(null)
+  const rafId = useRef(null)
+  const pausedRef = useRef(paused)
+  const completingRef = useRef(completing)
+
+  useEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
+
+  useEffect(() => {
+    completingRef.current = completing
+  }, [completing])
+
+  useEffect(() => {
+    const speed = getFishSpeed(task.priority)
+    pos.current = {
+      x: Math.random() * (window.innerWidth - FISH_WIDTH),
+      y: Math.random() * (window.innerHeight - FISH_HEIGHT),
+    }
+    vel.current = {
+      dx: (Math.random() < 0.5 ? 1 : -1) * speed,
+      dy: (Math.random() < 0.5 ? 1 : -1) * speed,
+    }
+
+    function animate() {
+      if (!pausedRef.current && !completingRef.current && fishRef.current) {
+        pos.current.x += vel.current.dx
+        pos.current.y += vel.current.dy
+
+        const maxX = window.innerWidth - FISH_WIDTH
+        const maxY = window.innerHeight - FISH_HEIGHT
+
+        if (pos.current.x <= 0)    { pos.current.x = 0;    vel.current.dx =  Math.abs(vel.current.dx) }
+        if (pos.current.x >= maxX) { pos.current.x = maxX; vel.current.dx = -Math.abs(vel.current.dx) }
+        if (pos.current.y <= 0)    { pos.current.y = 0;    vel.current.dy =  Math.abs(vel.current.dy) }
+        if (pos.current.y >= maxY) { pos.current.y = maxY; vel.current.dy = -Math.abs(vel.current.dy) }
+
+        const x = Math.round(pos.current.x)
+        const y = Math.round(pos.current.y)
+        fishRef.current.style.transform    = `translate(${x}px, ${y}px)`
+        imgRef.current.style.transform     = `scaleX(${vel.current.dx > 0 ? 1 : -1})`
+      }
+      rafId.current = requestAnimationFrame(animate)
+    }
+
+    rafId.current = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(rafId.current)
+  }, [task.priority])
+
+const containerClass = ['fish-roam', paused ? 'selected' : '', dimmed ? 'dimmed' : '']
+  .filter(Boolean)
+  .join(' ')
+
+const innerClass = completing ? 'fish-inner completing' : 'fish-inner'
+
+  function handleClick() {
+    playPop()
+    onClick()
+  }
+
+  return (
+    <div ref={fishRef} className={containerClass} onClick={handleClick}>
+      <div className={innerClass}>
+        <img ref={imgRef} src={getFishImage(task.priority)} alt={task.title} style={{ width: '100%', display: 'block' }} />
+        <span className="fish-label">{task.title}</span>
+      </div>
+    </div>
+  )
+}
