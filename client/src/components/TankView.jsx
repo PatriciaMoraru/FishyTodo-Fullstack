@@ -8,6 +8,7 @@ import Fish from './Fish'
 import { getFishImage } from '../utils/fishImages'
 import TaskModal from './TaskModal'
 import FishLegend from './FishLegend'
+import TaskApiStatus from './TaskApiStatus'
 import './TankView.css'
 
 const PRIORITY_ORDER = ['whale', 'big', 'medium', 'small', 'tiny']
@@ -34,17 +35,23 @@ export default function TankView() {
 
   function handleComplete() {
     const idToComplete = selectedTaskId
+    const taskSnapshot = tasks.find(t => t.id === idToComplete) ?? null
     playComplete()
     setCompletingTaskId(idToComplete)
     setSelectedTaskId(null)
-    setTimeout(() => {
-      completeTask(idToComplete)
+    setTimeout(async () => {
+      try {
+        if (taskSnapshot) await completeTask(taskSnapshot)
+      } catch {
+        /* error surfaced via TaskApiStatus */
+      }
       setCompletingTaskId(null)
     }, 1600)
   }
 
   return (
     <div className="tank">
+      <TaskApiStatus />
       <TankBar />
       <FishLegend />
       <button

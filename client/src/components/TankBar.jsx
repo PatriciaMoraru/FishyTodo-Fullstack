@@ -10,12 +10,16 @@ export default function TankBar() {
     const [input, setInput] = useState('')
     const [priority, setPriority] = useState('medium')
 
-    function handleRelease() {
+    async function handleRelease() {
         if (input.trim() === '') return
-        addTask(input.trim(), priority)
-        playSplash()
-        setInput('')
-        setPriority('medium')
+        try {
+            await addTask(input.trim(), priority)
+            playSplash()
+            setInput('')
+            setPriority('medium')
+        } catch {
+            /* TaskApiStatus shows tasksError */
+        }
     }
 
     function handleKeyDown(e) {

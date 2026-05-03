@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTaskContext } from '../context/TaskContext'
 import { getFishImage } from '../utils/fishImages'
+import TaskApiStatus from './TaskApiStatus'
 import './ListView.css'
 
 const PRIORITY_ORDER = ['whale', 'big', 'medium', 'small', 'tiny']
@@ -26,6 +27,7 @@ export default function ListView() {
   return (
     <div className="list-view screen">
       <div className="list-inner">
+        <TaskApiStatus />
 
         <div className="filter-bar" role="group" aria-label="Filter by priority">
           {FILTERS.map(f => (
@@ -62,7 +64,7 @@ export default function ListView() {
                 <div className="task-actions">
                   <button
                     className="task-btn done"
-                    onClick={() => completeTask(task.id)}
+                    onClick={() => completeTask(task)}
                     aria-label={`Mark "${task.title}" as done`}
                   >
                     ✓ done
