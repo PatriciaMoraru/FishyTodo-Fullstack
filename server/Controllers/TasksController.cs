@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FishyTodo.API.Data;
 using FishyTodo.API.Models;
-using System.Linq;
 
 namespace FishyTodo.API.Controllers;
 
@@ -48,7 +47,7 @@ public class TasksController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize(Roles = "VISITOR,WRITER,ADMIN")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(Guid id)
     {
         var task = await _db.Tasks.FindAsync(id);
         if (task is null) return NotFound();
@@ -59,6 +58,7 @@ public class TasksController : ControllerBase
     [Authorize(Roles = "WRITER,ADMIN")]
     public async Task<IActionResult> Create(TaskItem task)
     {
+        task.Id = Guid.NewGuid();
         task.CreatedAt = DateTime.UtcNow;
         _db.Tasks.Add(task);
         await _db.SaveChangesAsync();
@@ -67,7 +67,7 @@ public class TasksController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Roles = "WRITER,ADMIN")]
-    public async Task<IActionResult> Update(int id, TaskItem updated)
+    public async Task<IActionResult> Update(Guid id, TaskItem updated)
     {
         var task = await _db.Tasks.FindAsync(id);
         if (task is null) return NotFound();
@@ -82,7 +82,7 @@ public class TasksController : ControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "ADMIN")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var task = await _db.Tasks.FindAsync(id);
         if (task is null) return NotFound();
