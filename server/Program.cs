@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,18 @@ using System.Text;
 using FishyTodo.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var fishyFrontend = builder.Configuration["FishyFrontend:Origins"]
+    ?? "http://localhost:5173;http://127.0.0.1:5173";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FishyTodoCors", policy =>
+    {
+        policy.WithOrigins(fishyFrontend.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseInMemoryDatabase("FishyTodoDB"));
@@ -31,7 +44,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -72,6 +89,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("FishyTodoCors");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
