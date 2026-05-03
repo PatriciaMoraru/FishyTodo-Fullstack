@@ -15,4 +15,11 @@ public class TasksController : ControllerBase
     {
         _db = db;
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var tasks = await _db.Tasks.ToListAsync();
+        return Ok(tasks);
+    }
 }
