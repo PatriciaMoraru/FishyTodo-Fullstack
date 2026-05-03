@@ -30,4 +30,13 @@ public class TasksController : ControllerBase
         if (task is null) return NotFound();
         return Ok(task);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(TaskItem task)
+    {
+        task.CreatedAt = DateTime.UtcNow;
+        _db.Tasks.Add(task);
+        await _db.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
+    }
 }
