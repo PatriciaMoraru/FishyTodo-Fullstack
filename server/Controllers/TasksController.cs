@@ -22,4 +22,12 @@ public class TasksController : ControllerBase
         var tasks = await _db.Tasks.ToListAsync();
         return Ok(tasks);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var task = await _db.Tasks.FindAsync(id);
+        if (task is null) return NotFound();
+        return Ok(task);
+    }
 }
