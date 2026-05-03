@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using FishyTodo.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseInMemoryDatabase("FishyTodoDB"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
