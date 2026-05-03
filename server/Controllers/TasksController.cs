@@ -39,4 +39,18 @@ public class TasksController : ControllerBase
         await _db.SaveChangesAsync();
         return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, TaskItem updated)
+    {
+        var task = await _db.Tasks.FindAsync(id);
+        if (task is null) return NotFound();
+
+        task.Title = updated.Title;
+        task.Priority = updated.Priority;
+        task.Completed = updated.Completed;
+
+        await _db.SaveChangesAsync();
+        return Ok(task);
+    }
 }
