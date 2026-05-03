@@ -53,4 +53,15 @@ public class TasksController : ControllerBase
         await _db.SaveChangesAsync();
         return Ok(task);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var task = await _db.Tasks.FindAsync(id);
+        if (task is null) return NotFound();
+
+        _db.Tasks.Remove(task);
+        await _db.SaveChangesAsync();
+        return NoContent();
+    }
 }
