@@ -1,0 +1,25 @@
+.task-api-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.35rem 0.75rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent, #5b8fbf) 12%, transparent);
+}
+
+.task-api-status__err {
+  color: var(--err, #b33);
+}
+
+.task-api-status__retry {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent, #5b8fbf) 50%, transparent);
+  background: transparent;
+}
