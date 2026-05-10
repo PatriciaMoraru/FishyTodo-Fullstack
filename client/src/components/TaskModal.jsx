@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Check, X, Fish } from 'lucide-react'
+import { useRole } from '../context/RoleContext'
 import './TaskModal.css'
 
 const PRIORITY_LABEL = {
@@ -12,6 +13,7 @@ const PRIORITY_LABEL = {
 
 export default function TaskModal({ task, fishImage, onComplete, onRelease }) {
   const badge = PRIORITY_LABEL[task.priority] ?? PRIORITY_LABEL.medium
+  const { canWrite } = useRole()
   const cardRef = useRef(null)
 
   useEffect(() => {
@@ -49,13 +51,15 @@ export default function TaskModal({ task, fishImage, onComplete, onRelease }) {
         </div>
 
         <div className="ac-actions">
-          <button className="ac-btn primary" onClick={onComplete}>
-            <span className="em"><Check size={22} strokeWidth={2.5} /></span>
-            <span>
-              Mark as done
-              <span className="sub">Remove this fish from the tank</span>
-            </span>
-          </button>
+          {canWrite && (
+            <button className="ac-btn primary" onClick={onComplete}>
+              <span className="em"><Check size={22} strokeWidth={2.5} /></span>
+              <span>
+                Mark as done
+                <span className="sub">Remove this fish from the tank</span>
+              </span>
+            </button>
+          )}
           <button className="ac-btn lav" onClick={onRelease}>
             <span className="em"><Fish size={22} strokeWidth={1.8} /></span>
             <span>
@@ -64,7 +68,7 @@ export default function TaskModal({ task, fishImage, onComplete, onRelease }) {
             </span>
           </button>
         </div>
-        <p className="ac-keyboard-hint">↵ complete · esc release</p>
+        <p className="ac-keyboard-hint">{canWrite ? '↵ complete · esc release' : 'esc release'}</p>
       </div>
     </>
   )
