@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { APP_TITLE } from '../branding.js'
 import './Navbar.css'
 
 export default function Navbar() {
@@ -8,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <NavLink to="/tank" className="navbar-title">FishyTodo</NavLink>
+        <NavLink to="/tank" className="navbar-title">{APP_TITLE}</NavLink>
       </div>
       <div className="navbar-links">
         <NavLink to="/tank" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
