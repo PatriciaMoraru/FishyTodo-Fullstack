@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Eye, PenLine, ShieldCheck } from 'lucide-react'
 import fish1 from '../assets/fish1.png'
 import fish2 from '../assets/fish2.png'
 import fish3 from '../assets/fish3.png'
@@ -11,19 +12,19 @@ import './LoginView.css'
 const ROLES = [
   {
     id: 'VISITOR',
-    icon: '👁️',
+    icon: <Eye size={22} strokeWidth={1.8} />,
     name: 'visitor',
     desc: 'browse tasks, read-only',
   },
   {
     id: 'WRITER',
-    icon: '✏️',
+    icon: <PenLine size={22} strokeWidth={1.8} />,
     name: 'writer',
     desc: 'add & complete tasks',
   },
   {
     id: 'ADMIN',
-    icon: '🐡',
+    icon: <ShieldCheck size={22} strokeWidth={1.8} />,
     name: 'admin',
     desc: 'full access, delete too',
   },
@@ -51,8 +52,6 @@ export default function LoginView() {
 
   return (
     <div className="login-page">
-      <div className="dashed-frame" aria-hidden="true" />
-
       <img src={fish1} className="ambient-fish f1" alt="" aria-hidden="true" />
       <img src={fish2} className="ambient-fish f2" alt="" aria-hidden="true" />
       <img src={fish3} className="ambient-fish f3" alt="" aria-hidden="true" />
@@ -75,7 +74,7 @@ export default function LoginView() {
               aria-checked={selected === role.id}
               aria-label={`${role.name} — ${role.desc}`}
             >
-              <span className="role-icon" aria-hidden="true">{role.icon}</span>
+              <span className="role-icon">{role.icon}</span>
               <span className="role-name">{role.name}</span>
               <span className="role-desc">{role.desc}</span>
             </button>
