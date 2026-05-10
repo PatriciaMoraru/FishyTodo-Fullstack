@@ -4,7 +4,7 @@ import fish1 from '../assets/fish1.png'
 import fish2 from '../assets/fish2.png'
 import fish3 from '../assets/fish3.png'
 import fish4 from '../assets/fish4.png'
-import { setDemoJwtRole } from '../utils/taskApi'
+import { setDemoJwtRole, ensureJwt } from '../utils/taskApi'
 import { APP_TITLE } from '../branding.js'
 import './LoginView.css'
 
@@ -40,9 +40,10 @@ export default function LoginView() {
     setLoading(true)
     try {
       setDemoJwtRole(selected)
+      await ensureJwt()
       navigate('/tank')
     } catch (e) {
-      setError(e.message ?? 'Something went wrong')
+      setError(e.message ?? 'Something went wrong, try again')
     } finally {
       setLoading(false)
     }

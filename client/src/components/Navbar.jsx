@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { APP_TITLE } from '../branding.js'
-import { clearJwt, getDemoRole } from '../utils/taskApi'
+import { logout, getDemoRole } from '../utils/taskApi'
 import './Navbar.css'
 
 export default function Navbar() {
@@ -10,7 +10,7 @@ export default function Navbar() {
   const role = getDemoRole()
 
   function handleLogout() {
-    clearJwt()
+    logout()
     navigate('/login')
   }
 

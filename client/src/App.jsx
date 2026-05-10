@@ -9,8 +9,14 @@ import MoodReefView from './components/MoodReefView'
 import { TaskProvider } from './context/TaskContext'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { MoodProvider } from './context/MoodContext'
+import { isLoggedIn } from './utils/taskApi'
 import './App.css'
 import './style.css'
+
+function ProtectedRoute() {
+  if (!isLoggedIn()) return <Navigate to="/login" replace />
+  return <Outlet />
+}
 
 function HomeView() {
   const { listView } = useTheme()
@@ -40,10 +46,12 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingView />} />
           <Route path="/login" element={<LoginView />} />
-          <Route element={<AppLayout />}>
-            <Route path="/tank" element={<HomeView />} />
-            <Route path="/mood" element={<MoodReefView />} />
-            <Route path="/settings" element={<SettingsView />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route path="/tank" element={<HomeView />} />
+              <Route path="/mood" element={<MoodReefView />} />
+              <Route path="/settings" element={<SettingsView />} />
+            </Route>
           </Route>
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
