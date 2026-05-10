@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTaskContext } from '../context/TaskContext'
 import { getFishImage } from '../utils/fishImages'
 import TaskApiStatus from './TaskApiStatus'
+import TankBar from './TankBar'
 import './ListView.css'
 
 const PRIORITY_ORDER = ['whale', 'big', 'medium', 'small', 'tiny']
@@ -28,6 +29,7 @@ export default function ListView() {
     <div className="list-view screen">
       <div className="list-inner">
         <TaskApiStatus />
+        <TankBar />
 
         <div className="filter-bar" role="group" aria-label="Filter by priority">
           {FILTERS.map(f => (
