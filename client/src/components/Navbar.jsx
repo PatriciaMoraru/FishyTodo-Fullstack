@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
+import { ShieldCheck } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useRole } from '../context/RoleContext'
 import { APP_TITLE } from '../branding.js'
@@ -29,6 +30,12 @@ export default function Navbar() {
         <NavLink to="/settings" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
           Settings
         </NavLink>
+        {role === 'ADMIN' && (
+          <NavLink to="/admin" className={({ isActive }) => isActive ? 'nav-link active nav-link--admin' : 'nav-link nav-link--admin'}>
+            <ShieldCheck size={15} strokeWidth={2} />
+            Admin
+          </NavLink>
+        )}
         <button className="icon-btn theme-toggle" onClick={toggleTheme} title="Toggle theme">
           {theme === 'light' ? '☾' : '☀'}
         </button>
