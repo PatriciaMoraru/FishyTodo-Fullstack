@@ -34,6 +34,17 @@ export function clearJwt() {
   localStorage.removeItem(TOKEN_STORAGE)
 }
 
+/** Returns true only if the user has explicitly logged in (role stored). */
+export function isLoggedIn() {
+  return localStorage.getItem(ROLE_STORAGE) !== null
+}
+
+/** Full logout — clears both the JWT and the stored role. */
+export function logout() {
+  localStorage.removeItem(TOKEN_STORAGE)
+  localStorage.removeItem(ROLE_STORAGE)
+}
+
 async function fetchToken(role) {
   const res = await fetch(`${API_BASE}/token`, {
     method: 'POST',
