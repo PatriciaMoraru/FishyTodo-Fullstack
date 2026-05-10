@@ -1,6 +1,9 @@
 # Docker secrets
 .env
 
+# Local dev overrides with real credentials — never commit
+server/appsettings.Development.json
+
 # OS / editor noise
 .DS_Store
 Thumbs.db

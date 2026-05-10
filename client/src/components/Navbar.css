@@ -55,6 +55,13 @@
   font-size: 1.6rem;
 }
 
+.nav-link--admin {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent) !important;
+}
+
 .nav-logout {
   font-family: 'Patrick Hand', cursive;
   font-size: 1.3rem;
