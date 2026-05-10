@@ -9,6 +9,7 @@ import MoodReefView from './components/MoodReefView'
 import { TaskProvider } from './context/TaskContext'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { MoodProvider } from './context/MoodContext'
+import { RoleProvider } from './context/RoleContext'
 import { isLoggedIn } from './utils/taskApi'
 import './App.css'
 import './style.css'
@@ -40,6 +41,7 @@ const routerBasename =
 export default function App() {
   return (
     <ThemeProvider>
+    <RoleProvider>
     <TaskProvider>
     <MoodProvider>
       <BrowserRouter basename={routerBasename}>
@@ -58,6 +60,7 @@ export default function App() {
       </BrowserRouter>
     </MoodProvider>
     </TaskProvider>
+    </RoleProvider>
     </ThemeProvider>
   )
 }
