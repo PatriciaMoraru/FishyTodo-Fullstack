@@ -5,13 +5,14 @@ import fish3 from '../assets/fish3.png'
 import fish4 from '../assets/fish4.png'
 import fish5 from '../assets/fish5.png'
 import fish6 from '../assets/fish6.png'
+import { APP_TITLE } from '../branding.js'
 import './LandingView.css'
 
 export default function LandingView() {
   const navigate = useNavigate()
 
   return (
-    <div className="landing" role="main" aria-label="FishyTodo landing page">
+    <div className="landing" role="main" aria-label={`${APP_TITLE} landing page`}>
 
       {/* decorative fish — all different species */}
       <img src={fish1} className="landing-fish landing-fish--tl"  alt="" aria-hidden="true" />
@@ -23,7 +24,7 @@ export default function LandingView() {
 
       {/* centre content */}
       <div className="landing-center">
-        <h1 className="landing-title">FishyTodo</h1>
+        <h1 className="landing-title">{APP_TITLE}</h1>
         <p className="landing-tagline">
           a quiet little tank for your noisy little brain
         </p>
