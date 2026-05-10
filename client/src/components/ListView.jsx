@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTaskContext } from '../context/TaskContext'
+import { useRole } from '../context/RoleContext'
 import { getFishImage } from '../utils/fishImages'
 import TaskApiStatus from './TaskApiStatus'
 import TankBar from './TankBar'
@@ -17,6 +18,7 @@ const FILTERS = ['all', ...PRIORITY_ORDER]
 
 export default function ListView() {
   const { tasks, completeTask, removeTask } = useTaskContext()
+  const { canWrite, canDelete } = useRole()
   const [filter, setFilter] = useState('all')
 
   const active = [...tasks.filter(t => !t.completed)].sort(
@@ -64,20 +66,24 @@ export default function ListView() {
                   {PRIORITY_LABELS[task.priority]}
                 </span>
                 <div className="task-actions">
-                  <button
-                    className="task-btn done"
-                    onClick={() => completeTask(task)}
-                    aria-label={`Mark "${task.title}" as done`}
-                  >
-                    ✓ done
-                  </button>
-                  <button
-                    className="task-btn remove"
-                    onClick={() => removeTask(task.id)}
-                    aria-label={`Remove "${task.title}"`}
-                  >
-                    ✕
-                  </button>
+                  {canWrite && (
+                    <button
+                      className="task-btn done"
+                      onClick={() => completeTask(task)}
+                      aria-label={`Mark "${task.title}" as done`}
+                    >
+                      ✓ done
+                    </button>
+                  )}
+                  {canDelete && (
+                    <button
+                      className="task-btn remove"
+                      onClick={() => removeTask(task.id)}
+                      aria-label={`Remove "${task.title}"`}
+                    >
+                      ✕
+                    </button>
+                  )}
                 </div>
               </li>
             ))}

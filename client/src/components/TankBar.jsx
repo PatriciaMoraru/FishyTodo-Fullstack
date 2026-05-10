@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useTaskContext } from '../context/TaskContext'
+import { useRole } from '../context/RoleContext'
 import { useSounds } from '../utils/useSounds'
 import PriorityPicker from './PriorityPicker'
 import './TankBar.css'
 
 export default function TankBar() {
     const { addTask } = useTaskContext()
+    const { canWrite } = useRole()
     const { playSplash } = useSounds()
     const [input, setInput] = useState('')
     const [priority, setPriority] = useState('medium')
@@ -25,6 +27,8 @@ export default function TankBar() {
     function handleKeyDown(e) {
         if (e.key === 'Enter') handleRelease()
     }
+
+    if (!canWrite) return null
 
     return (
         <div className="tank-bar">
