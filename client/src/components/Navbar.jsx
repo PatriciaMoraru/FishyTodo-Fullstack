@@ -1,16 +1,16 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { useRole } from '../context/RoleContext'
 import { APP_TITLE } from '../branding.js'
-import { logout, getDemoRole } from '../utils/taskApi'
 import './Navbar.css'
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
+  const { role, logoutRole } = useRole()
   const navigate = useNavigate()
-  const role = getDemoRole()
 
   function handleLogout() {
-    logout()
+    logoutRole()
     navigate('/login')
   }
 
