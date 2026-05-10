@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>FishyToDo</title>
+    <script>
+      var base = '/FishyTodo-Fullstack';
+      var path = window.location.pathname.slice(base.length) || '/';
+      var search = window.location.search;
+      var hash = window.location.hash;
+      window.location.replace(
+        base + '/?p=' + encodeURIComponent(path + search) + hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
