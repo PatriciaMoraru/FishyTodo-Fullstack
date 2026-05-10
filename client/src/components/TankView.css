@@ -51,6 +51,10 @@
   z-index: 10;
 }
 
+.tank--no-bar .tank-filter {
+  top: 1.6rem;
+}
+
 .tank-filter-btn {
   font-family: 'Patrick Hand', cursive;
   font-size: 1.2rem;
