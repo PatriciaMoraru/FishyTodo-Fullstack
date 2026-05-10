@@ -1,0 +1,153 @@
+.dash {
+  padding: 2.4rem;
+  overflow-y: auto;
+}
+
+.dash-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+/* ── header ──────────────────────────────────────── */
+.dash-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.dash-header-icon {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.dash-title {
+  font-family: 'Caveat', cursive;
+  font-size: 3.2rem;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.dash-subtitle {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  color: var(--ink-soft);
+  margin-top: 0.2rem;
+}
+
+/* ── stat cards ──────────────────────────────────── */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+
+.dash-stat-card {
+  background: var(--paper-card);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 2rem 2.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s;
+}
+
+.dash-stat-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.dash-stat-icon {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.dash-stat-value {
+  font-family: 'Caveat', cursive;
+  font-size: 3.6rem;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.dash-stat-label {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  color: var(--ink-soft);
+  margin-top: 0.2rem;
+}
+
+.dash-stat-sub {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.2rem;
+  color: var(--accent-soft);
+  margin-top: 0.2rem;
+}
+
+/* ── chart card ──────────────────────────────────── */
+.dash-chart-card {
+  background: var(--paper-card);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 2.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.dash-chart-title {
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
+  color: var(--ink);
+  margin-bottom: 1.6rem;
+}
+
+.dash-empty {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.5rem;
+  color: var(--ink-soft);
+  text-align: center;
+  padding: 3.2rem 0;
+}
+
+/* ── tooltip ─────────────────────────────────────── */
+.dash-tooltip {
+  background: var(--paper-card);
+  border: 1.5px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.dash-tooltip-name {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+}
+
+.dash-tooltip-value {
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
+  color: var(--ink);
+}
+
+/* ── states ──────────────────────────────────────── */
+.dash-loading,
+.dash-error {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.dash-loading { color: var(--ink-soft); }
+.dash-error   { color: var(--accent); }
+
+/* ── responsive ──────────────────────────────────── */
+@media (max-width: 600px) {
+  .dash { padding: 1.6rem; }
+  .dash-stats { grid-template-columns: 1fr; }
+}
