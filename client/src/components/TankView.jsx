@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Fish as FishIcon } from 'lucide-react'
 import { useTaskContext } from '../context/TaskContext'
 import { useTheme } from '../context/ThemeContext'
+import { useRole } from '../context/RoleContext'
 import { useSounds } from '../utils/useSounds'
 import TankBar from './TankBar'
 import Fish from './Fish'
@@ -17,6 +18,7 @@ const PRIORITY_LABELS = { whale: 'Whale', big: 'Big', medium: 'Medium', small: '
 export default function TankView() {
   const { tasks, completeTask } = useTaskContext()
   const { focusMode, toggleFocusMode } = useTheme()
+  const { canWrite } = useRole()
   const { playComplete } = useSounds()
   const activeTasks = tasks.filter(t => !t.completed)
   const [selectedTaskId, setSelectedTaskId] = useState(null)
@@ -50,7 +52,7 @@ export default function TankView() {
   }
 
   return (
-    <div className="tank">
+    <div className={`tank${canWrite ? '' : ' tank--no-bar'}`}>
       <TaskApiStatus />
       <TankBar />
       <FishLegend />
