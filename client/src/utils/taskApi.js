@@ -156,6 +156,26 @@ export async function apiUpdateTask(task) {
   return mapTaskFromApi(data)
 }
 
+/** Fetches all tasks including completed ones — for the admin dashboard only. */
+export async function fetchAllTasksAdmin(signal) {
+  const pageSize = 100
+  let page = 1
+  const tasks = []
+  while (true) {
+    const res = await authorizedFetch(`/api/tasks?page=${page}&pageSize=${pageSize}&includeCompleted=true`, {
+      method: 'GET',
+      signal,
+    })
+    if (!res.ok) throw new Error(await parseError(res))
+    const data = await res.json()
+    const slice = Array.isArray(data.items) ? data.items : []
+    for (const t of slice) tasks.push(mapTaskFromApi(t))
+    if (page >= (data.totalPages ?? 1) || slice.length === 0) break
+    page += 1
+  }
+  return tasks
+}
+
 export async function apiDeleteTask(id) {
   const res = await authorizedFetch(`/api/tasks/${id}`, {
     method: 'DELETE',
