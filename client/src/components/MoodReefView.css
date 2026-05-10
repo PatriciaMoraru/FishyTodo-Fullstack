@@ -92,10 +92,15 @@
   transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 }
 
-.mood-btn:hover {
+.mood-btn:hover:not(:disabled) {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
   border-color: var(--mood-color);
+}
+
+.mood-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .mood-btn--selected {
