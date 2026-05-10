@@ -1,0 +1,101 @@
+.list-view {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.list-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 3.2rem 4rem;
+}
+
+/* ── history ─────────────────────────────────────── */
+
+.history-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 1.6rem;
+  border-bottom: 1.5px dashed var(--line);
+  margin-bottom: 0.4rem;
+}
+
+.history-title {
+  font-family: 'Caveat', cursive;
+  font-size: 3.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+
+.history-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--paper-card);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 1.2rem 1.6rem;
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+
+.history-fish {
+  width: 2.8rem;
+  height: 2.8rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.history-task-title {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.7rem;
+  color: var(--ink);
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.history-date {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: 1rem;
+}
+
+.history-back {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.history-back:hover {
+  color: var(--ink);
+}
+
+.history-status {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.5rem;
+  color: var(--ink-soft);
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.history-status--error {
+  color: var(--danger, #e05);
+}
+

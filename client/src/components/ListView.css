@@ -9,6 +9,16 @@
   padding: 3.2rem 4rem;
 }
 
+/* TankBar is position:absolute in TankView — reset it to flow inside ListView */
+.list-inner .tank-bar {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
+  margin-bottom: 1.6rem;
+}
+
 /* ── filter bar ──────────────────────────────────── */
 .filter-bar {
   display: flex;
