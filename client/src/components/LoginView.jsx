@@ -6,6 +6,7 @@ import fish2 from '../assets/fish2.png'
 import fish3 from '../assets/fish3.png'
 import fish4 from '../assets/fish4.png'
 import { setDemoJwtRole, ensureJwt } from '../utils/taskApi'
+import { useRole } from '../context/RoleContext'
 import { APP_TITLE } from '../branding.js'
 import './LoginView.css'
 
@@ -32,6 +33,7 @@ const ROLES = [
 
 export default function LoginView() {
   const navigate = useNavigate()
+  const { refreshRole } = useRole()
   const [selected, setSelected] = useState('ADMIN')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -42,6 +44,7 @@ export default function LoginView() {
     try {
       setDemoJwtRole(selected)
       await ensureJwt()
+      refreshRole()
       navigate('/tank')
     } catch (e) {
       setError(e.message ?? 'Something went wrong, try again')

@@ -27,6 +27,9 @@ export default function Navbar() {
         <NavLink to="/mood" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
           Mood Reef
         </NavLink>
+        <NavLink to="/history" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+          History
+        </NavLink>
         <NavLink to="/settings" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
           Settings
         </NavLink>
@@ -39,8 +42,8 @@ export default function Navbar() {
         <button className="icon-btn theme-toggle" onClick={toggleTheme} title="Toggle theme">
           {theme === 'light' ? '☾' : '☀'}
         </button>
-        <button className="nav-logout" onClick={handleLogout} title={`Logged in as ${role}`}>
-          {role.toLowerCase()} ✕
+        <button className="nav-logout" onClick={handleLogout} title={`Logged in as ${role ?? ''}`}>
+          {role?.toLowerCase() ?? '—'} ✕
         </button>
       </div>
     </nav>
