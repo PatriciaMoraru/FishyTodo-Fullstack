@@ -81,6 +81,12 @@ public class TasksController : ControllerBase
 
         task.Title = updated.Title;
         task.Priority = updated.Priority;
+
+        if (!task.Completed && updated.Completed)
+            task.CompletedAt = DateTime.UtcNow;
+        else if (!updated.Completed)
+            task.CompletedAt = null;
+
         task.Completed = updated.Completed;
 
         await _db.SaveChangesAsync();

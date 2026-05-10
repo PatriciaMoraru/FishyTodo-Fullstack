@@ -7,4 +7,5 @@ public class TaskItem
     public string Priority { get; set; } = "medium";
     public bool Completed { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? CompletedAt { get; set; }
 }
