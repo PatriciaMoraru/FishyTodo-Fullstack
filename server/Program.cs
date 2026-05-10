@@ -20,8 +20,10 @@ builder.Services.AddCors(options =>
     });
 });
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseInMemoryDatabase("FishyTodoDB"));
+    opt.UseNpgsql(connectionString));
 
 var jwtKey = builder.Configuration["Jwt:Key"]!;
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
@@ -78,6 +80,12 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -88,7 +96,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment()) app.UseHttpsRedirection();
 app.UseCors("FishyTodoCors");
 app.UseAuthentication();
 app.UseAuthorization();

@@ -27,12 +27,15 @@ function AppLayout() {
   )
 }
 
+const routerBasename =
+  import.meta.env.BASE_URL.replace(/\/$/, '') || undefined
+
 export default function App() {
   return (
     <ThemeProvider>
     <TaskProvider>
     <MoodProvider>
-      <BrowserRouter basename={import.meta.env.PROD ? '/FishyTodo' : '/'}>
+      <BrowserRouter basename={routerBasename}>
         <Routes>
           <Route path="/" element={<LandingView />} />
           <Route element={<AppLayout />}>
