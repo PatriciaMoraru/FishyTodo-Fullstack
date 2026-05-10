@@ -20,8 +20,24 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+var rawConnection = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
+
+var connectionString = ConvertPostgresUrl(rawConnection);
+
+static string ConvertPostgresUrl(string input)
+{
+    if (!input.StartsWith("postgres://") && !input.StartsWith("postgresql://"))
+        return input;
+    var uri = new Uri(input);
+    var parts = uri.UserInfo.Split(':', 2);
+    var user = parts[0];
+    var password = parts.Length > 1 ? parts[1] : "";
+    var port = uri.Port > 0 ? uri.Port : 5432;
+    var database = uri.AbsolutePath.TrimStart('/');
+    return $"Host={uri.Host};Port={port};Database={database};Username={user};Password={password};SSL Mode=Disable";
+}
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(connectionString));
 
@@ -92,7 +108,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "FishyTodo API v1");
-        c.RoutePrefix = string.Empty; // Swagger at root: http://localhost:5112/
+        c.RoutePrefix = string.Empty;
     });
 }
 
