@@ -30,7 +30,7 @@ export default function LandingView() {
         </p>
         <button
           className="btn btn-primary landing-cta"
-          onClick={() => navigate('/tank')}
+          onClick={() => navigate('/login')}
           aria-label="Enter the task tank"
         >
           let&apos;s swim →

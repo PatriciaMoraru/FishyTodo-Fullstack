@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import TankView from './components/TankView'
 import ListView from './components/ListView'
 import SettingsView from './components/SettingsView'
 import LandingView from './components/LandingView'
+import LoginView from './components/LoginView'
 import MoodReefView from './components/MoodReefView'
 import { TaskProvider } from './context/TaskContext'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
@@ -38,11 +39,13 @@ export default function App() {
       <BrowserRouter basename={routerBasename}>
         <Routes>
           <Route path="/" element={<LandingView />} />
+          <Route path="/login" element={<LoginView />} />
           <Route element={<AppLayout />}>
             <Route path="/tank" element={<HomeView />} />
             <Route path="/mood" element={<MoodReefView />} />
             <Route path="/settings" element={<SettingsView />} />
           </Route>
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
     </MoodProvider>
