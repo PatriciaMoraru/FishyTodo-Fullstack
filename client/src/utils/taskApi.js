@@ -103,6 +103,7 @@ export function mapTaskFromApi(raw) {
     priority: raw.priority,
     completed: raw.completed,
     createdAt: raw.createdAt,
+    completedAt: raw.completedAt ?? null,
   }
 }
 
@@ -154,6 +155,28 @@ export async function apiUpdateTask(task) {
   if (!res.ok) throw new Error(await parseError(res))
   const data = await res.json()
   return mapTaskFromApi(data)
+}
+
+/** Fetches only completed tasks — for the History view. */
+export async function fetchCompletedTasks(signal) {
+  const pageSize = 100
+  let page = 1
+  const tasks = []
+  while (true) {
+    const res = await authorizedFetch(`/api/tasks?page=${page}&pageSize=${pageSize}&includeCompleted=true`, {
+      method: 'GET',
+      signal,
+    })
+    if (!res.ok) throw new Error(await parseError(res))
+    const data = await res.json()
+    const slice = Array.isArray(data.items) ? data.items : []
+    for (const t of slice) {
+      if (t.completed) tasks.push(mapTaskFromApi(t))
+    }
+    if (page >= (data.totalPages ?? 1) || slice.length === 0) break
+    page += 1
+  }
+  return tasks
 }
 
 /** Fetches all tasks including completed ones — for the admin dashboard only. */

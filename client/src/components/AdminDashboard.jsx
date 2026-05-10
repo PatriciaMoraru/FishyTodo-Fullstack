@@ -45,10 +45,11 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const ac = new AbortController()
+    // Keep previous data visible while refreshing — only show spinner on first load
+    setError(null)
     fetchAllTasksAdmin(ac.signal)
-      .then(setTasks)
-      .catch(e => { if (e.name !== 'AbortError') setError(e.message) })
-      .finally(() => setLoading(false))
+      .then(data => { setTasks(data); setLoading(false) })
+      .catch(e => { if (e.name !== 'AbortError') { setError(e.message); setLoading(false) } })
     return () => ac.abort()
   }, [])
 
@@ -73,10 +74,10 @@ export default function AdminDashboard() {
           </div>
         </header>
 
-        {loading && <p className="dash-loading">loading tank data…</p>}
+        {loading && tasks.length === 0 && <p className="dash-loading">loading tank data…</p>}
         {error   && <p className="dash-error">{error}</p>}
 
-        {!loading && !error && (
+        {(!loading || tasks.length > 0) && !error && (
           <>
             <div className="dash-stats">
               <StatCard
