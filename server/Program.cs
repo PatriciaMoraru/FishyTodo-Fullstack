@@ -68,7 +68,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtAudience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ClockSkew = TimeSpan.Zero
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = async ctx =>
+            {
+                ctx.HandleResponse();
+                ctx.Response.StatusCode = 401;
+                ctx.Response.ContentType = "application/json";
+                var reason = ctx.AuthenticateFailure?.Message;
+                var message = reason != null && reason.Contains("Lifetime")
+                    ? "Token has expired. Get a fresh one from POST /token."
+                    : "No valid token provided. Get one from POST /token first.";
+                await ctx.Response.WriteAsync(
+                    JsonSerializer.Serialize(new { error = message }));
+            },
+            OnForbidden = async ctx =>
+            {
+                ctx.Response.StatusCode = 403;
+                ctx.Response.ContentType = "application/json";
+                await ctx.Response.WriteAsync(
+                    JsonSerializer.Serialize(new { error = "Your role does not have permission to perform this action." }));
+            }
         };
     });
 
