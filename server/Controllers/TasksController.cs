@@ -20,16 +20,23 @@ public class TasksController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "VISITOR,WRITER,ADMIN")]
-    public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] bool includeCompleted = false)
     {
         if (page < 1) page = 1;
         if (pageSize < 1) pageSize = 1;
         if (pageSize > 100) pageSize = 100;
 
-        var totalItems = await _db.Tasks.CountAsync();
+        var query = includeCompleted
+            ? _db.Tasks
+            : _db.Tasks.Where(t => !t.Completed);
+
+        var totalItems = await query.CountAsync();
         var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-        var items = await _db.Tasks
+        var items = await query
             .OrderBy(t => t.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
