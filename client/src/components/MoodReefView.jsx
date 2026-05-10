@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Sparkles, Sun, Cloud, CloudDrizzle, CloudLightning } from 'lucide-react'
 import { useMood, MOODS } from '../context/MoodContext'
+import { useRole } from '../context/RoleContext'
 import './MoodReefView.css'
 
 const MOOD_ICONS = [Sparkles, Sun, Cloud, CloudDrizzle, CloudLightning]
@@ -13,6 +14,7 @@ function getDayName(dateKey) {
 
 export default function MoodReefView() {
   const { todayKey, getMood, setMood, getCurrentWeek } = useMood()
+  const { canWrite } = useRole()
   const [activeDay, setActiveDay] = useState(todayKey)
 
   const activeMoodIndex = getMood(activeDay)
@@ -44,7 +46,9 @@ export default function MoodReefView() {
         {/* daily check-in card */}
         <section className="checkin-card" aria-label="Daily mood check-in">
           <p className="checkin-date">{dateLabel()}</p>
-          <h2 className="checkin-prompt">{promptLabel()}</h2>
+          <h2 className="checkin-prompt">
+            {canWrite ? promptLabel() : 'visitors can only view moods'}
+          </h2>
 
           <div className="checkin-options" role="group" aria-label="Mood options">
             {MOODS.map((mood, i) => {
@@ -55,7 +59,8 @@ export default function MoodReefView() {
                   key={mood.key}
                   className={`mood-btn ${isSelected ? 'mood-btn--selected' : ''}`}
                   style={{ '--mood-color': mood.color }}
-                  onClick={() => setMood(activeDay, i)}
+                  onClick={() => canWrite && setMood(activeDay, i)}
+                  disabled={!canWrite}
                   aria-label={mood.label}
                   aria-pressed={isSelected}
                 >
@@ -87,8 +92,8 @@ export default function MoodReefView() {
                   key={dateKey}
                   className={`day-btn ${isActive ? 'day-btn--active' : ''} ${isWeekToday ? 'day-btn--today' : ''} ${isFuture ? 'day-btn--future' : ''}`}
                   style={mood ? { '--mood-color': mood.color } : {}}
-                  onClick={() => !isFuture && setActiveDay(dateKey)}
-                  disabled={isFuture}
+                  onClick={() => !isFuture && canWrite && setActiveDay(dateKey)}
+                  disabled={isFuture || !canWrite}
                   aria-label={`${label}${isFuture ? ', future date' : mood ? `, mood: ${mood.label}` : ', no mood logged'}`}
                   aria-pressed={isActive}
                 >
