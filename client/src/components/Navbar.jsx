@@ -1,10 +1,18 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { APP_TITLE } from '../branding.js'
+import { clearJwt, getDemoRole } from '../utils/taskApi'
 import './Navbar.css'
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
+  const navigate = useNavigate()
+  const role = getDemoRole()
+
+  function handleLogout() {
+    clearJwt()
+    navigate('/login')
+  }
 
   return (
     <nav className="navbar">
@@ -23,6 +31,9 @@ export default function Navbar() {
         </NavLink>
         <button className="icon-btn theme-toggle" onClick={toggleTheme} title="Toggle theme">
           {theme === 'light' ? '☾' : '☀'}
+        </button>
+        <button className="nav-logout" onClick={handleLogout} title={`Logged in as ${role}`}>
+          {role.toLowerCase()} ✕
         </button>
       </div>
     </nav>

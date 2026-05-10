@@ -55,6 +55,22 @@
   font-size: 1.6rem;
 }
 
+.nav-logout {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+  background: var(--paper-warm);
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 0.3rem 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-logout:hover {
+  background: var(--tert);
+  color: var(--ink);
+}
+
 @media (max-width: 480px) {
   .navbar {
     padding: 0 1.2rem;
