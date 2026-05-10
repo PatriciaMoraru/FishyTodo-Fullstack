@@ -35,7 +35,19 @@ static string ConvertPostgresUrl(string input)
     var password = parts.Length > 1 ? parts[1] : "";
     var port = uri.Port > 0 ? uri.Port : 5432;
     var database = uri.AbsolutePath.TrimStart('/');
-    return $"Host={uri.Host};Port={port};Database={database};Username={user};Password={password};SSL Mode=Disable";
+    var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+    var sslMode = query["sslmode"] switch
+    {
+        "require"            => "Require",
+        "verify-ca"          => "VerifyCA",
+        "verify-full"        => "VerifyFull",
+        "prefer"             => "Prefer",
+        "allow"              => "Allow",
+        "disable"            => "Disable",
+        _                    => "Disable"   // internal Render network — no SSL needed
+    };
+    var trustCert = sslMode is "Require" or "Prefer" ? ";Trust Server Certificate=true" : "";
+    return $"Host={uri.Host};Port={port};Database={database};Username={user};Password={password};SSL Mode={sslMode}{trustCert}";
 }
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
