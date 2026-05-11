@@ -1,7 +1,4 @@
-/** Lab 7 demo: API origin when `VITE_API_BASE_URL` is not set */
 export const DEMO_API_BASE_URL = 'http://localhost:5112'
-
-/** Lab 7 demo role for `/token` when env / localStorage role not set (full CRUD) */
 export const DEMO_JWT_ROLE = 'ADMIN'
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? DEMO_API_BASE_URL

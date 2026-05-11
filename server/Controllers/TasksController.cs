@@ -19,7 +19,7 @@ public class TasksController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Roles = "VISITOR,WRITER,ADMIN")]
+    [Authorize(Roles = $"{Roles.Visitor},{Roles.Writer},{Roles.Admin}")]
     public async Task<IActionResult> GetAll(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
@@ -53,7 +53,7 @@ public class TasksController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "VISITOR,WRITER,ADMIN")]
+    [Authorize(Roles = $"{Roles.Visitor},{Roles.Writer},{Roles.Admin}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var task = await _db.Tasks.FindAsync(id);
@@ -62,7 +62,7 @@ public class TasksController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "WRITER,ADMIN")]
+    [Authorize(Roles = $"{Roles.Writer},{Roles.Admin}")]
     public async Task<IActionResult> Create(TaskItem task)
     {
         task.Id = Guid.NewGuid();
@@ -73,7 +73,7 @@ public class TasksController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "WRITER,ADMIN")]
+    [Authorize(Roles = $"{Roles.Writer},{Roles.Admin}")]
     public async Task<IActionResult> Update(Guid id, TaskItem updated)
     {
         var task = await _db.Tasks.FindAsync(id);
@@ -94,7 +94,7 @@ public class TasksController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "ADMIN")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(Guid id)
     {
         var task = await _db.Tasks.FindAsync(id);

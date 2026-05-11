@@ -23,14 +23,15 @@ public class TokenController : ControllerBase
     {
         var role = request.Role.ToUpper();
 
-        if (role != "VISITOR" && role != "WRITER" && role != "ADMIN")
-            return BadRequest(new { error = "Invalid role. Must be VISITOR, WRITER, or ADMIN." });
+        if (role != Roles.Visitor && role != Roles.Writer && role != Roles.Admin && role != Roles.Analyzer)
+            return BadRequest(new { error = $"Invalid role. Must be {Roles.Visitor}, {Roles.Writer}, {Roles.Analyzer}, or {Roles.Admin}." });
 
         var permissions = role switch
         {
-            "ADMIN"   => new[] { "READ", "WRITE", "DELETE" },
-            "WRITER"  => new[] { "READ", "WRITE" },
-            _         => new[] { "READ" }
+            Roles.Admin    => new[] { "READ", "WRITE", "DELETE" },
+            Roles.Analyzer => new[] { "READ", "WRITE", "DELETE" },
+            Roles.Writer   => new[] { "READ", "WRITE" },
+            _              => new[] { "READ" }
         };
 
         var claims = new List<Claim>
